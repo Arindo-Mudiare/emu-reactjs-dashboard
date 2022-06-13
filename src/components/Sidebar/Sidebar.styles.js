@@ -33,6 +33,10 @@ export const SidebarHeader = styled.h3`
 export const MenuItemContainer = styled.div``; 
 
 export const MenuItem = styled.div`
+        ${p => !p.isSidebarOpen && `
+                text-align: center;
+                ${p.selected && 'background-color: rgba(0, 0, 0, 0.3)'}
+        `};
         padding: 6px 20px;
         margin-top: 20px;
         font-weight: 600;
@@ -64,13 +68,15 @@ export const MenuItem = styled.div`
 
 // menu text styled component 
 export const Text = styled.p`
-        display: inline
+        display: ${p => p.isSidebarOpen ? 'inline' : 'none'}
 `
 // menu icon styled component 
 export const Icon = styled.img`
+        ${p => p.isSidebarOpen && 
+                'padding-right: 20px'
+        };
         height: 16px;
         width: 16px;
-        padding-right: 20px;
        
 `
 

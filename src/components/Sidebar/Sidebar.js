@@ -18,16 +18,18 @@ const Sidebar = (props) => {
 // State of sidebar
 const [selected, setSelectedMenuItem] = useState(menuItems[0].name);
 const [isSidebarOpen, setSidebarState] = useState(true);
-const [header, setHeader] = useState(sidebarHeader.fullName)
+const [header, setHeader] = useState(sidebarHeader.fullName);
 
 // use effect hook to control sidebar toggle
 useEffect(() => {
-  isSidebarOpen ? setHeader(sidebarHeader.fullName) : setSidebarState(sidebarHeader.shortName)
-},[isSidebarOpen, sidebarHeader])
+  isSidebarOpen ? setTimeout(() => setHeader(sidebarHeader.fullName),200) : setHeader(sidebarHeader.shortName)
+},[isSidebarOpen, sidebarHeader]);
+
 // handle menu item clicks
 const handleMenuItemClick = name => {
   setSelectedMenuItem(name);
 }
+
   const menuItemsJSX = menuItems.map((menuItem, index) => {
 
     const isItemSelected = selected === menuItem.name;
@@ -38,9 +40,13 @@ const handleMenuItemClick = name => {
         font={fonts.menu}
         selected={isItemSelected}
         onClick={() => handleMenuItemClick(menuItem.name)}
+        isSidebarOpen={isSidebarOpen}
       >
-        <s.Icon src={menuItem.icon}></s.Icon>
-        <s.Text>{menuItem.name}</s.Text>
+        <s.Icon 
+         src={menuItem.icon}
+         isSidebarOpen={isSidebarOpen}
+        ></s.Icon>
+        <s.Text isSidebarOpen={isSidebarOpen}>{menuItem.name}</s.Text>
       </s.MenuItem>
     )
   });
