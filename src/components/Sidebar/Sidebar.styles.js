@@ -31,6 +31,7 @@ export const SidebarHeader = styled.h3`
 
 // menu items styled component   
 export const MenuItemContainer = styled.div``; 
+export const ItemContainer = styled.div``; 
 
 export const MenuItem = styled.div`
         ${p => !p.isSidebarOpen && `
@@ -42,6 +43,8 @@ export const MenuItem = styled.div`
         font-weight: 600;
         color: ${p => p.selected ? '#fff' : '#beae9a'};
         font-family: ${p => p.font};
+        white-space: nowrap;
+        position: relative; // Dropdown icon parent
 
         &:hover {
                 color: #fff;
@@ -73,13 +76,37 @@ export const Text = styled.p`
 // menu icon styled component 
 export const Icon = styled.img`
         ${p => p.isSidebarOpen && 
-                'padding-right: 20px'
+                `padding-right: 20px;
+                transition: .2s ease-in padding-right`
         };
         height: 16px;
         width: 16px;
        
 `
+// Submenu items styled component
+export const SubMenuItemContainer = styled.div`
+  font-size: 14px;
+  ${p => p.isSidebarOpen && 'padding-left: 15%'};
+  ${p => !p.isSidebarOpen && 'text-align: center'};
+  
+`;
+export const SubMenuItem = styled.div`
+  color: #beae9a;
 
+  &:hover {
+        color: #fff;
+  }
+`;
+// Dropdown icon styled component
+export const DropdownIcon = styled.span `
+  position: absolute;
+  top: 12px;
+  right: 24px;
+  border: solid ${p => p.selected ? '#fff' : '#beae9a'};
+  border-width: 0 2px 2px 0;
+  padding: 3px;
+  transform: rotate(45deg);
+`
 // Toggler styled components
 export const TogglerContainer = styled.div`
   position: absolute;

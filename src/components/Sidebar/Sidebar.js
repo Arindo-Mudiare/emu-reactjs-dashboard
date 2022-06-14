@@ -30,24 +30,50 @@ const handleMenuItemClick = name => {
   setSelectedMenuItem(name);
 }
 
+// Update of sidebar state
+useEffect(() => {
+  const updateWindowWidth = () => {
+    if (window.innerWidth < 1080 && isSidebarOpen) setSidebarState(false);
+    else setSidebarState(true);
+  }
+  window.addEventListener('resize', updateWindowWidth);
+
+  return () => window.removeEventListener('resize', updateWindowWidth);
+  
+},[isSidebarOpen]);
+
   const menuItemsJSX = menuItems.map((menuItem, index) => {
 
     const isItemSelected = selected === menuItem.name;
 
+    const hasSubmenus  = !!menuItem.subMenuItems.length;
+
+    const subMenusJSX = menuItem.subMenuItems.map((subMenuItem, subMenuItemIndex) => {
+      return (
+        <s.SubMenuItem key={subMenuItemIndex}>{subMenuItem.name}</s.SubMenuItem>
+      )
+    })
+
     return (
-      <s.MenuItem 
-        key={index} 
-        font={fonts.menu}
-        selected={isItemSelected}
-        onClick={() => handleMenuItemClick(menuItem.name)}
-        isSidebarOpen={isSidebarOpen}
-      >
-        <s.Icon 
-         src={menuItem.icon}
-         isSidebarOpen={isSidebarOpen}
-        ></s.Icon>
-        <s.Text isSidebarOpen={isSidebarOpen}>{menuItem.name}</s.Text>
-      </s.MenuItem>
+      <s.ItemContainer key={index}>
+        <s.MenuItem 
+          font={fonts.menu}
+          selected={isItemSelected}
+          onClick={() => handleMenuItemClick(menuItem.name)}
+          isSidebarOpen={isSidebarOpen}
+        >
+          <s.Icon 
+          src={menuItem.icon}
+          isSidebarOpen={isSidebarOpen}
+          ></s.Icon>
+          <s.Text isSidebarOpen={isSidebarOpen}>{menuItem.name}</s.Text>
+          {hasSubmenus && (
+            <s.DropdownIcon selected={isItemSelected} />
+          )}
+        </s.MenuItem>
+        {/* Display submenus if they exist */}
+        <s.SubMenuItemContainer isSidebarOpen={isSidebarOpen}>{subMenusJSX}</s.SubMenuItemContainer>
+      </s.ItemContainer>
     )
   });
 
