@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import * as s from './Sidebar.styles'
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Sidebar = (props) => {
   const { 
@@ -19,6 +20,8 @@ const Sidebar = (props) => {
 const [selected, setSelectedMenuItem] = useState(menuItems[0].name);
 const [isSidebarOpen, setSidebarState] = useState(true);
 const [header, setHeader] = useState(sidebarHeader.fullName);
+const [subMenusStates, setSubmenus] = useState({});
+
 
 // use effect hook to control sidebar toggle
 useEffect(() => {
@@ -26,8 +29,17 @@ useEffect(() => {
 },[isSidebarOpen, sidebarHeader]);
 
 // handle menu item clicks
-const handleMenuItemClick = name => {
+const handleMenuItemClick = (name, index) => {
+
   setSelectedMenuItem(name);
+
+  const subMenusCopy = JSON.parse(JSON.stringify(subMenusStates));
+
+  if (subMenusStates.hasOwnProperty(index)) {
+    subMenusCopy[index]['isOpen'] = !subMenusStates[index]['isOpen']
+    setSubmenus(subMenusCopy);
+    
+  }
 }
 
 // Update of sidebar state
@@ -42,11 +54,31 @@ useEffect(() => {
   
 },[isSidebarOpen]);
 
+// Add index of items that contain sub menu items
+useEffect(() => {
+  const newSubmenus = {};
+
+  menuItems.forEach((menuItem, index) => {
+    const hasSubmenus = !!menuItem.subMenuItems.length;
+
+    if (hasSubmenus) {
+      newSubmenus[index] = {};
+      newSubmenus[index]['isOpen'] = false;
+      newSubmenus[index]['selected'] = null;
+    }
+  })
+
+  setSubmenus(newSubmenus);
+},[menuItems]);
+
+
   const menuItemsJSX = menuItems.map((menuItem, index) => {
 
     const isItemSelected = selected === menuItem.name;
 
     const hasSubmenus  = !!menuItem.subMenuItems.length;
+
+    const isOpen = subMenusStates[index]?.isOpen;
 
     const subMenusJSX = menuItem.subMenuItems.map((subMenuItem, subMenuItemIndex) => {
       return (
@@ -59,8 +91,9 @@ useEffect(() => {
         <s.MenuItem 
           font={fonts.menu}
           selected={isItemSelected}
-          onClick={() => handleMenuItemClick(menuItem.name)}
+          onClick={() => handleMenuItemClick(menuItem.name, index)}
           isSidebarOpen={isSidebarOpen}
+          isOpen={isOpen}
         >
           <s.Icon 
           src={menuItem.icon}
@@ -68,11 +101,25 @@ useEffect(() => {
           ></s.Icon>
           <s.Text isSidebarOpen={isSidebarOpen}>{menuItem.name}</s.Text>
           {hasSubmenus && (
-            <s.DropdownIcon selected={isItemSelected} />
+            <s.DropdownIcon 
+              selected={isItemSelected} 
+              isOpen={isOpen}
+            />
           )}
         </s.MenuItem>
         {/* Display submenus if they exist */}
-        <s.SubMenuItemContainer isSidebarOpen={isSidebarOpen}>{subMenusJSX}</s.SubMenuItemContainer>
+        <AnimatePresence>
+          {hasSubmenus && isOpen && (
+            <motion.nav
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition= {{ duration: 0.35 }}
+              exit={{ opacity: 0, x: -30 }}
+            >
+              <s.SubMenuItemContainer isSidebarOpen={isSidebarOpen}>{subMenusJSX}</s.SubMenuItemContainer>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </s.ItemContainer>
     )
   });
