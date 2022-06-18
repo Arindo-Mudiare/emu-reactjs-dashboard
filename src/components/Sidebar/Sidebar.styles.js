@@ -9,8 +9,8 @@ export const SidebarContainer = styled.div
     background-image: 
     linear-gradient(
         315deg,
-        rgba(13, 50, 77, 0.8) 0%,
-        rgba(127, 90, 131, 0.8) 74%
+        rgba(17, 7, 0, 0.9) 0%,   
+        rgba(5, 108, 126, 0.5) 74%
         ),
         url(${props => props.bgImage});
     
@@ -86,7 +86,7 @@ export const Icon = styled.img`
 `
 // Submenu items styled component
 export const SubMenuItemContainer = styled.div`
-  font-size: 14px;
+  font-size: ${p => p.isSidebarOpen ? ' 14px' : '12px'};
   ${p => p.isSidebarOpen && 'padding-left: 15%'};
   ${p => !p.isSidebarOpen && 'text-align: center'};
   
@@ -119,7 +119,7 @@ export const TogglerContainer = styled.div`
   margin: 0 auto;
 `
 export const Toggler = styled.div`
- height: 40px;
+ height: 20px;
  cursor: pointer;
  position: relative;
 

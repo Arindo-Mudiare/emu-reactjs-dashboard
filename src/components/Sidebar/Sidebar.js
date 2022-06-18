@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as s from './Sidebar.styles'
 import { AnimatePresence, motion } from 'framer-motion';
+import { Link } from 'react-router-dom'
 
 const Sidebar = (props) => {
   const { 
@@ -88,6 +89,7 @@ useEffect(() => {
 
     return (
       <s.ItemContainer key={index}>
+        <Link to={menuItem.to} style={ { textDecoration: 'none'}}>
         <s.MenuItem 
           font={fonts.menu}
           selected={isItemSelected}
@@ -107,6 +109,7 @@ useEffect(() => {
             />
           )}
         </s.MenuItem>
+        </Link>
         {/* Display submenus if they exist */}
         <AnimatePresence>
           {hasSubmenus && isOpen && (
