@@ -6,6 +6,12 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import MainView from "./components/MainView/MainView";
 import Testing from "./components/Testing";
 import Testing2 from "./components/Testing2";
+import First from "./First";
+import Second from "./Second";
+import Third from "./Third";
+import User from "./User";
+import { useState } from "react";
+
 
 const App = () => {
   const sidebarHeader = {
@@ -75,6 +81,10 @@ const App = () => {
     menu: "Montserrat",
   };
 
+  const ShowHideUser = ({ show }) => (show ? <User /> : null);
+
+  const [show, setShow] = useState(false);
+
   return (
     <s.App>
       {/* <Sidebar 
@@ -84,8 +94,13 @@ const App = () => {
         fonts={fonts}
       /> */}
       {/* <MainView /> */}
-      <Testing />
-      <Testing2 />
+      <button 
+        onClick={() => setShow(!show)}
+        >
+          {show ? "Hide User" : "Show User"}
+      </button>
+     <ShowHideUser show={show} />
+      
     </s.App>
   );
 };
