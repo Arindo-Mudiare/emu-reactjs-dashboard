@@ -11,7 +11,7 @@ import Second from "./Second";
 import Third from "./Third";
 import User from "./User";
 import { useState } from "react";
-
+import Pagination from "./Pagination";
 
 const App = () => {
   const sidebarHeader = {
@@ -94,13 +94,13 @@ const App = () => {
         fonts={fonts}
       /> */}
       {/* <MainView /> */}
-      <button 
+      {/* <button 
         onClick={() => setShow(!show)}
         >
           {show ? "Hide User" : "Show User"}
       </button>
-     <ShowHideUser show={show} />
-      
+     <ShowHideUser show={show} /> */}
+      <Pagination />
     </s.App>
   );
 };
