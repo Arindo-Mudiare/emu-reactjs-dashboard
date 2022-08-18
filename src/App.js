@@ -3,15 +3,6 @@ import * as s from "./App.styles";
 
 // Components
 import Sidebar from "./components/Sidebar/Sidebar";
-import MainView from "./components/MainView/MainView";
-import Testing from "./components/Testing";
-import Testing2 from "./components/Testing2";
-import First from "./First";
-import Second from "./Second";
-import Third from "./Third";
-import User from "./User";
-import { useState } from "react";
-import Pagination from "./Pagination";
 
 const App = () => {
   const sidebarHeader = {
@@ -81,26 +72,14 @@ const App = () => {
     menu: "Montserrat",
   };
 
-  const ShowHideUser = ({ show }) => (show ? <User /> : null);
-
-  const [show, setShow] = useState(false);
-
   return (
     <s.App>
-      {/* <Sidebar 
-        bgImage={bgImage} 
+      <Sidebar
+        bgImage={bgImage}
         sidebarHeader={sidebarHeader}
         menuItems={menuItems}
         fonts={fonts}
-      /> */}
-      {/* <MainView /> */}
-      {/* <button 
-        onClick={() => setShow(!show)}
-        >
-          {show ? "Hide User" : "Show User"}
-      </button>
-     <ShowHideUser show={show} /> */}
-      <Pagination />
+      />
     </s.App>
   );
 };
